@@ -1,5 +1,5 @@
 from database.database import getDB
-from fastapi import Depends,Request
+from fastapi import Depends,Request,HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel,Field,EmailStr
 from fastapi.responses import JSONResponse
@@ -22,8 +22,10 @@ def RegisterHandler(data:RegisterationModel,db:Session = Depends(getDB)):
             db.add(user_data)
             db.commit()
             db.refresh(user_data)
-        finally:
-            return JSONResponse({"success":True,"msg":"User created successfully"})
+        except:
+            return HTTPException(status_code=501,detail="Error while creating user.")
+        
+        return JSONResponse({"success":True,"msg":"User created successfully"})
     else:
         return JSONResponse({
             "msg":"User already exists with this information",

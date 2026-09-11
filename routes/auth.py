@@ -8,6 +8,6 @@ router = APIRouter(
     tags=["Authentication"]
 )
 
-router.add_api_route("/login",LoginHandler,methods=["GET"])
+router.add_api_route("/login",LoginHandler,methods=["POST"])
 
 router.add_api_route("/register",RegisterHandler,methods=["POST"])
